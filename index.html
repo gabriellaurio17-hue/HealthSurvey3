@@ -1226,9 +1226,11 @@
                         }
                     }
                     
-                    // Add character with fade-in effect
+                    // Add character with cursive styling
                     const span = document.createElement('span');
                     span.className = 'typed-char';
+                    span.style.fontFamily = "'Dancing Script', cursive";
+                    span.style.color = '#d81b60';
                     span.textContent = char;
                     span.style.animationDelay = '0s';
                     letterElement.appendChild(span);
@@ -1246,6 +1248,7 @@
             // Add cursor
             const cursor = document.createElement('span');
             cursor.className = 'letter-cursor';
+            cursor.style.backgroundColor = '#d81b60';
             letterElement.appendChild(cursor);
             
             // Start typing
