@@ -333,6 +333,23 @@
             overflow: hidden;
         }
 
+        .click-here-text {
+            margin-top: 15px;
+            font-size: 18px;
+            color: #e91e63;
+            font-weight: 500;
+            opacity: 0.8;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            text-decoration: underline;
+        }
+
+        .click-here-text:hover {
+            opacity: 1;
+            transform: translateY(-2px);
+            color: #d81b60;
+        }
+
         .thankyou-section::before {
             content: '';
             position: absolute;
@@ -1087,6 +1104,7 @@
                 <button class="thankyou-btn" onclick="showThankYouMessage()">
                     <i class="fas fa-heart"></i> Thank You
                 </button>
+                <p class="click-here-text">click here</p>
                 
                 <div id="thankYouMessage" class="thankyou-message" style="display: none;">
                     <p>thank you lang walay kiss? 😢</p>
