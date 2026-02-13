@@ -1,0 +1,1684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Health Survey</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #f5576c 75%, #fda085 100%);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        /* Survey Section */
+        .survey-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .survey-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            padding: 40px;
+            border-radius: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3), 0 0 0 1px rgba(255,255,255,0.1);
+            max-width: 500px;
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .survey-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+            animation: rotate 30s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .survey-card h2 {
+            text-align: center;
+            color: #4a5568;
+            margin-bottom: 30px;
+            font-size: 2em;
+            font-weight: 300;
+            position: relative;
+            z-index: 1;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #4a5568;
+            font-weight: 500;
+            font-size: 0.95em;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 12px 15px;
+            border: 2px solid transparent;
+            border-radius: 15px;
+            font-size: 14px;
+            background: rgba(255,255,255,0.8);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            outline: none;
+            border-color: #667eea;
+            background: rgba(255,255,255,0.95);
+            box-shadow: 0 4px 20px rgba(102,126,234,0.2);
+        }
+
+        .form-group input[type="range"] {
+            padding: 0;
+            height: 8px;
+            background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+            border-radius: 5px;
+            outline: none;
+        }
+
+        .form-group input[type="range"]::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px;
+            height: 20px;
+            background: #fff;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        }
+
+        .happiness-display {
+            text-align: center;
+            margin-top: 10px;
+            font-size: 1.2em;
+            color: #667eea;
+            font-weight: bold;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 15px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(102,126,234,0.3);
+            position: relative;
+            z-index: 1;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 40px rgba(102,126,234,0.4);
+        }
+
+        /* Valentine's Section */
+        .valentine-section {
+            display: none;
+            animation: fadeIn 1s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Hero */
+        .hero {
+            text-align: center;
+            padding: 60px 0;
+            background: linear-gradient(135deg, rgba(255, 105, 180, 0.1), rgba(255, 182, 193, 0.1));
+            border-radius: 30px;
+            margin: 20px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 105, 180, 0.05) 0%, transparent 70%);
+            animation: rotate 15s linear infinite reverse;
+        }
+
+        .hero h1 {
+            font-size: 4em;
+            color: #e91e63;
+            margin-bottom: 20px;
+            text-shadow: 3px 3px 6px rgba(0,0,0,0.2);
+            position: relative;
+            z-index: 1;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        /* Gallery Section */
+        .gallery-section {
+            padding: 60px 0;
+            background: linear-gradient(135deg, rgba(255, 182, 193, 0.05), rgba(255, 105, 180, 0.05));
+            border-radius: 30px;
+            margin: 40px 0;
+            position: relative;
+        }
+
+        .gallery-section h2 {
+            text-align: center;
+            color: #e91e63;
+            margin-bottom: 50px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-bottom: 40px;
+            padding: 0 20px;
+        }
+
+        .gallery-item {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(233, 30, 99, 0.2);
+            transition: all 0.4s ease;
+            position: relative;
+        }
+
+        .gallery-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent, rgba(255, 105, 180, 0.1));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .gallery-item:hover {
+            transform: translateY(-10px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(233, 30, 99, 0.3);
+        }
+
+        .gallery-item:hover::before {
+            opacity: 1;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 250px;
+            object-fit: cover;
+            transition: transform 0.4s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        /* Letter Section */
+        .letter-section {
+            background: linear-gradient(135deg, white, rgba(255, 182, 193, 0.1));
+            padding: 60px;
+            border-radius: 30px;
+            margin: 60px 0;
+            box-shadow: 0 20px 50px rgba(233, 30, 99, 0.15);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .letter-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 105, 180, 0.03) 0%, transparent 70%);
+            animation: rotate 25s linear infinite;
+        }
+
+        .letter-section h2 {
+            color: #e91e63;
+            margin-bottom: 30px;
+            text-align: center;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            position: relative;
+            z-index: 1;
+        }
+
+        .letter-content {
+            font-size: 1.4em;
+            line-height: 1.8;
+            color: #333;
+            text-align: center;
+            font-style: italic;
+            position: relative;
+            z-index: 1;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 30px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+        }
+
+        /* Thank You Section */
+        .thankyou-section {
+            text-align: center;
+            padding: 60px 0;
+            background: linear-gradient(135deg, rgba(255, 182, 193, 0.1), rgba(255, 105, 180, 0.1));
+            border-radius: 30px;
+            margin: 40px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .thankyou-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 105, 180, 0.05) 0%, transparent 70%);
+            animation: rotate 18s linear infinite reverse;
+        }
+
+        .thankyou-section h2 {
+            color: #e91e63;
+            margin-bottom: 40px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            position: relative;
+            z-index: 1;
+        }
+
+        .thankyou-btn {
+            background: linear-gradient(45deg, #ff69b4, #ff1493);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 30px;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 5px 20px rgba(255, 105, 180, 0.3);
+        }
+
+        .thankyou-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(255, 105, 180, 0.4);
+        }
+
+        .thankyou-message {
+            background: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 20px;
+            margin-top: 30px;
+            position: relative;
+            z-index: 1;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(233, 30, 99, 0.2);
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .thankyou-message p {
+            font-size: 1.3em;
+            color: #e91e63;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+
+        .response-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .diko-btn, .mwaa-btn {
+            padding: 12px 30px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .diko-btn {
+            background: linear-gradient(45deg, #ff6b6b, #ff5252);
+            color: white;
+        }
+
+        .mwaa-btn {
+            background: linear-gradient(45deg, #ff69b4, #ff1493);
+            color: white;
+        }
+
+        .diko-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(255, 82, 82, 0.4);
+        }
+
+        .mwaa-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(255, 105, 180, 0.4);
+        }
+
+        .final-response {
+            background: linear-gradient(135deg, rgba(255, 105, 180, 0.1), rgba(255, 182, 193, 0.1));
+            padding: 30px;
+            border-radius: 20px;
+            margin-top: 30px;
+            position: relative;
+            z-index: 1;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .final-response p {
+            font-size: 2em;
+            color: #e91e63;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .moving-button {
+            position: fixed;
+            background: linear-gradient(45deg, #ff6b6b, #ff5252);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            z-index: 1001;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(255, 82, 82, 0.4);
+        }
+
+        .moving-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 8px 30px rgba(255, 82, 82, 0.5);
+        }
+
+        /* Miss You Section */
+        .missyou-section {
+            background: linear-gradient(135deg, rgba(255, 105, 180, 0.1), rgba(255, 182, 193, 0.1));
+            padding: 40px;
+            border-radius: 20px;
+            margin-top: 30px;
+            position: relative;
+            z-index: 1;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .missyou-text {
+            font-size: 2.5em;
+            color: #e91e63;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .missyou-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .thanks-btn, .missyoumore-btn {
+            padding: 15px 35px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .thanks-btn {
+            background: linear-gradient(45deg, #4CAF50, #45a049);
+            color: white;
+        }
+
+        .missyoumore-btn {
+            background: linear-gradient(45deg, #ff69b4, #ff1493);
+            color: white;
+        }
+
+        .thanks-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(76, 175, 80, 0.4);
+        }
+
+        .missyoumore-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 20px rgba(255, 105, 180, 0.4);
+        }
+
+        .really-response {
+            background: linear-gradient(135deg, rgba(255, 105, 180, 0.15), rgba(255, 182, 193, 0.15));
+            padding: 40px;
+            border-radius: 20px;
+            margin-top: 30px;
+            position: relative;
+            z-index: 1;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .really-response p {
+            font-size: 2.5em;
+            color: #e91e63;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .song-message {
+            background: linear-gradient(135deg, rgba(255, 105, 180, 0.2), rgba(255, 182, 193, 0.2));
+            padding: 50px;
+            border-radius: 25px;
+            margin-top: 30px;
+            position: relative;
+            z-index: 1;
+            animation: fadeIn 1s ease-in;
+        }
+
+        .song-text {
+            font-size: 2em;
+            color: #e91e63;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            font-style: italic;
+            line-height: 1.6;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .lyrics-container {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 30px;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(233, 30, 99, 0.2);
+        }
+
+        .lyrics-typewriter {
+            font-size: 1.2em;
+            color: #333;
+            font-family: 'Courier New', monospace;
+            line-height: 1.8;
+            text-align: center;
+            min-height: 200px;
+        }
+
+        .final-missyou {
+            background: linear-gradient(135deg, rgba(255, 105, 180, 0.25), rgba(255, 182, 193, 0.25));
+            padding: 50px;
+            border-radius: 25px;
+            margin-top: 30px;
+            position: relative;
+            z-index: 1;
+            animation: fadeIn 1s ease-in;
+            text-align: center;
+        }
+
+        .final-missyou-text {
+            font-size: 2.5em;
+            color: #e91e63;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .exit-btn {
+            background: linear-gradient(45deg, #ff6b6b, #ff5252);
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            border-radius: 30px;
+            font-size: 1.2em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 20px rgba(255, 82, 82, 0.3);
+        }
+
+        .exit-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 30px rgba(255, 82, 82, 0.4);
+        }
+        .rose-section {
+            text-align: center;
+            padding: 60px 0;
+            background: linear-gradient(135deg, rgba(255, 182, 193, 0.1), rgba(255, 105, 180, 0.1));
+            border-radius: 30px;
+            margin: 40px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .rose-section::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(255, 105, 180, 0.1) 0%, transparent 70%);
+            animation: rotate 20s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+
+        .rose-section h2 {
+            color: #e91e63;
+            margin-bottom: 40px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            position: relative;
+            z-index: 1;
+        }
+
+        .rose {
+            font-size: 6em;
+            color: #ff69b4;
+            cursor: pointer;
+            transition: all 0.5s ease;
+            display: inline-block;
+            user-select: none;
+            position: relative;
+            width: 120px;
+            height: 120px;
+            z-index: 1;
+            text-shadow: 0 0 20px rgba(255, 105, 180, 0.5);
+        }
+
+        .rose::before {
+            content: '🌹';
+            position: absolute;
+            top: 0;
+            left: 0;
+            font-size: inherit;
+            filter: hue-rotate(320deg) saturate(2);
+        }
+
+        .rose:hover {
+            transform: scale(1.2) rotate(10deg);
+            text-shadow: 0 0 30px rgba(255, 105, 180, 0.8);
+        }
+
+        .rose.bloom {
+            animation: bloom 2s ease-in-out;
+        }
+
+        @keyframes bloom {
+            0% { 
+                transform: scale(1) rotate(0deg); 
+                filter: hue-rotate(320deg) saturate(2) brightness(1);
+            }
+            25% { 
+                transform: scale(1.8) rotate(90deg); 
+                filter: hue-rotate(320deg) saturate(3) brightness(1.2);
+            }
+            50% { 
+                transform: scale(2.2) rotate(180deg); 
+                filter: hue-rotate(320deg) saturate(4) brightness(1.4);
+            }
+            75% { 
+                transform: scale(1.8) rotate(270deg); 
+                filter: hue-rotate(320deg) saturate(3) brightness(1.2);
+            }
+            100% { 
+                transform: scale(1) rotate(360deg); 
+                filter: hue-rotate(320deg) saturate(2) brightness(1);
+            }
+        }
+
+        .falling-rose {
+            position: fixed;
+            color: #ff69b4;
+            font-size: 30px;
+            animation: fall 4s linear infinite;
+            pointer-events: none;
+            z-index: 1000;
+            user-select: none;
+            text-shadow: 0 0 10px rgba(255, 105, 180, 0.6);
+        }
+
+        .falling-rose::before {
+            content: '🌹';
+            filter: hue-rotate(320deg) saturate(2);
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-100vh) rotate(0deg) scale(0.5);
+                opacity: 0;
+            }
+            10% {
+                opacity: 1;
+            }
+            90% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(720deg) scale(1.5);
+                opacity: 0;
+            }
+        }
+
+        /* Music Player */
+        .music-player {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: rgba(255, 105, 180, 0.9);
+            padding: 15px;
+            border-radius: 15px;
+            color: white;
+            text-align: center;
+            z-index: 1000;
+        }
+
+        .music-player button {
+            background: white;
+            color: #ff69b4;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+
+        /* Hearts Animation */
+        .heart {
+            position: fixed;
+            color: #ff69b4;
+            font-size: 20px;
+            animation: fall 3s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes fall {
+            0% {
+                transform: translateY(-100vh) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Floating Roses Background */
+        .floating-roses {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+            overflow: hidden;
+        }
+
+        .floating-rose {
+            position: absolute;
+            font-size: 20px;
+            color: #ff69b4;
+            opacity: 0.7;
+            animation: float 15s infinite linear;
+            filter: hue-rotate(320deg) saturate(2);
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(100vh) rotate(0deg) scale(0.5);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.7;
+            }
+            90% {
+                opacity: 0.7;
+            }
+            100% {
+                transform: translateY(-100vh) rotate(360deg) scale(1.2);
+                opacity: 0;
+            }
+        }
+
+        /* Rose Border Decorations */
+        .rose-border {
+            position: absolute;
+            width: 60px;
+            height: 60px;
+            font-size: 30px;
+            color: #ff69b4;
+            opacity: 0.6;
+            filter: hue-rotate(320deg) saturate(2);
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        .rose-border.top-left {
+            top: 20px;
+            left: 20px;
+        }
+
+        .rose-border.top-right {
+            top: 20px;
+            right: 20px;
+        }
+
+        .rose-border.bottom-left {
+            bottom: 20px;
+            left: 20px;
+        }
+
+        .rose-border.bottom-right {
+            bottom: 20px;
+            right: 20px;
+        }
+
+        /* Rose Corner Designs */
+        .rose-corner {
+            position: absolute;
+            width: 100px;
+            height: 100px;
+            opacity: 0.4;
+            filter: hue-rotate(320deg) saturate(2);
+        }
+
+        .rose-corner::before {
+            content: '🌹';
+            position: absolute;
+            font-size: 40px;
+            color: #ff69b4;
+        }
+
+        .rose-corner.top-left::before {
+            top: -20px;
+            left: -20px;
+            transform: rotate(-45deg);
+        }
+
+        .rose-corner.top-right::before {
+            top: -20px;
+            right: -20px;
+            transform: rotate(45deg);
+        }
+
+        .rose-corner.bottom-left::before {
+            bottom: -20px;
+            left: -20px;
+            transform: rotate(-135deg);
+        }
+
+        .rose-corner.bottom-right::before {
+            bottom: -20px;
+            right: -20px;
+            transform: rotate(135deg);
+        }
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2em;
+            }
+            
+            .gallery {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            }
+            
+            .letter-section {
+                padding: 20px;
+            }
+            
+            .music-player {
+                bottom: 10px;
+                right: 10px;
+                padding: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Survey Section -->
+    <div class="survey-container" id="surveySection">
+        <div class="survey-card">
+            <h2>Comprehensive Health Assessment</h2>
+            <form id="healthSurvey">
+                <div class="form-group">
+                    <label for="name">Full Name:</label>
+                    <input type="text" id="name" name="name" required placeholder="Enter your full name">
+                </div>
+                <div class="form-group">
+                    <label for="age">Age Group:</label>
+                    <select id="age" name="age" required>
+                        <option value="">Select age group...</option>
+                        <option value="18-25">18-25</option>
+                        <option value="26-35">26-35</option>
+                        <option value="36-45">36-45</option>
+                        <option value="46-55">46-55</option>
+                        <option value="56+">56+</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="energy">Energy Level:</label>
+                    <select id="energy" name="energy" required>
+                        <option value="">Select energy level...</option>
+                        <option value="very-high">Very High</option>
+                        <option value="high">High</option>
+                        <option value="moderate">Moderate</option>
+                        <option value="low">Low</option>
+                        <option value="very-low">Very Low</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="sleep">Sleep Quality:</label>
+                    <select id="sleep" name="sleep" required>
+                        <option value="">Select sleep quality...</option>
+                        <option value="excellent">Excellent (7-9 hours)</option>
+                        <option value="good">Good (6-7 hours)</option>
+                        <option value="fair">Fair (5-6 hours)</option>
+                        <option value="poor">Poor (less than 5 hours)</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="mood">Current Mood:</label>
+                    <select id="mood" name="mood" required>
+                        <option value="">Select current mood...</option>
+                        <option value="excellent">Excellent</option>
+                        <option value="good">Good</option>
+                        <option value="neutral">Neutral</option>
+                        <option value="stressed">Stressed</option>
+                        <option value="anxious">Anxious</option>
+                        <option value="sad">Sad</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="exercise">Exercise Frequency:</label>
+                    <select id="exercise" name="exercise" required>
+                        <option value="">Select exercise frequency...</option>
+                        <option value="daily">Daily</option>
+                        <option value="3-4-weekly">3-4 times per week</option>
+                        <option value="1-2-weekly">1-2 times per week</option>
+                        <option value="rarely">Rarely</option>
+                        <option value="never">Never</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="diet">Diet Quality:</label>
+                    <select id="diet" name="diet" required>
+                        <option value="">Select diet quality...</option>
+                        <option value="excellent">Excellent - balanced meals</option>
+                        <option value="good">Good - mostly healthy</option>
+                        <option value="average">Average - mixed</option>
+                        <option value="poor">Poor - mostly processed</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="stress">Stress Level:</label>
+                    <select id="stress" name="stress" required>
+                        <option value="">Select stress level...</option>
+                        <option value="very-low">Very Low</option>
+                        <option value="low">Low</option>
+                        <option value="moderate">Moderate</option>
+                        <option value="high">High</option>
+                        <option value="very-high">Very High</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="happiness">Overall Happiness (1-10):</label>
+                    <input type="range" id="happiness" name="happiness" min="1" max="10" value="5">
+                    <div class="happiness-display" id="happinessValue">5</div>
+                </div>
+                <div class="form-group">
+                    <label for="social">Social Activity:</label>
+                    <select id="social" name="social" required>
+                        <option value="">Select social activity...</option>
+                        <option value="very-active">Very Active</option>
+                        <option value="active">Active</option>
+                        <option value="moderate">Moderate</option>
+                        <option value="limited">Limited</option>
+                        <option value="isolated">Isolated</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="work">Work-Life Balance:</label>
+                    <select id="work" name="work" required>
+                        <option value="">Select work-life balance...</option>
+                        <option value="excellent">Excellent</option>
+                        <option value="good">Good</option>
+                        <option value="challenging">Challenging</option>
+                        <option value="poor">Poor</option>
+                        <option value="very-poor">Very Poor</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="health">Overall Health Rating:</label>
+                    <select id="health" name="health" required>
+                        <option value="">Select overall health...</option>
+                        <option value="excellent">Excellent</option>
+                        <option value="very-good">Very Good</option>
+                        <option value="good">Good</option>
+                        <option value="fair">Fair</option>
+                        <option value="poor">Poor</option>
+                    </select>
+                </div>
+                <button type="submit" class="submit-btn">Submit Assessment</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Valentine's Section -->
+    <div class="valentine-section" id="valentineSection">
+        <div class="container">
+            <!-- Hero -->
+            <section class="hero">
+                <h1>Happy Valentine's Day, ariee 💕</h1>
+            </section>
+
+            <!-- Gallery -->
+            <section class="gallery-section">
+                <h2>My Fav Pictures of you</h2>
+                <div class="gallery">
+                    <div class="gallery-item">
+                        <img src="image1.jpg.jpg" alt="Picture 1">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="image2.jpg.jpg" alt="Picture 2">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="image3.jpg.jpg" alt="Picture 3">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="image4.jpg.jpg" alt="Picture 4">
+                    </div>
+                    <div class="gallery-item">
+                        <img src="image5.jpg.jpg" alt="Picture 5">
+                    </div>
+                </div>
+            </section>
+
+            <!-- Love Letter -->
+            <section class="letter-section">
+                <h2>A Letter To My Love</h2>
+                <div class="letter-content">
+                    My dearest ariee,<br><br>
+                    I hope you succeed in life and be pretty as much as u want to be ariee. I'm always here for you.
+                </div>
+            </section>
+
+            <!-- Thank You Section -->
+            <section class="thankyou-section">
+                <h2 class="section-title">Thank You</h2>
+                <button class="thankyou-btn" onclick="showThankYouMessage()">
+                    <i class="fas fa-heart"></i> Thank You
+                </button>
+                
+                <div id="thankYouMessage" class="thankyou-message" style="display: none;">
+                    <p>thank you lang walay kiss? 😢</p>
+                    <div class="response-buttons">
+                        <button class="diko-btn" onclick="handleDiko(this)">diko</button>
+                        <button class="mwaa-btn" onclick="handleMwaa(this)">ok mwaa</button>
+                    </div>
+                </div>
+                
+                <div id="finalResponse" class="final-response" style="display: none;">
+                    <p>😍 mwaaaaaa</p>
+                </div>
+                
+                <div id="missYouSection" class="missyou-section" style="display: none;">
+                    <p class="missyou-text">IMISSYOUUUU</p>
+                    <div class="missyou-buttons">
+                        <button class="thanks-btn" onclick="handleThanks(this)">thanks</button>
+                        <button class="missyoumore-btn" onclick="handleMissYouMore(this)">IMISSYOUMOREEE</button>
+                    </div>
+                </div>
+                
+                <div id="reallyResponse" class="really-response" style="display: none;">
+                    <p>🥺 really?</p>
+                </div>
+                
+                <div id="songMessage" class="song-message" style="display: none;">
+                    <p class="song-text">this is the song i kept on listening because it reminds me of us</p>
+                    <div class="lyrics-container">
+                        <div id="lyricsDisplay" class="lyrics-typewriter"></div>
+                    </div>
+                </div>
+                
+                <div id="finalMissYou" class="final-missyou" style="display: none;">
+                    <p class="final-missyou-text">i really miss you ariee 🥺</p>
+                    <button class="exit-btn" onclick="exitWebsite()">Exit</button>
+                </div>
+            </section>
+        </div>
+    </div>
+
+    <!-- Music Player -->
+    <div class="music-player" id="musicPlayer" style="display: none;">
+        <div>🎵 Now Playing</div>
+        <div><strong>13 by Lany</strong></div>
+    </div>
+
+    <script>
+        // Create floating roses and decorations after submit
+        function createRoseDecorations() {
+            // Create floating roses background
+            const rosesContainer = document.createElement('div');
+            rosesContainer.className = 'floating-roses';
+            rosesContainer.id = 'floatingRoses';
+            
+            // Create multiple floating roses
+            for (let i = 0; i < 15; i++) {
+                const rose = document.createElement('div');
+                rose.className = 'floating-rose';
+                rose.innerHTML = '🌹';
+                
+                // Random position
+                rose.style.left = Math.random() * 100 + '%';
+                rose.style.animationDelay = Math.random() * 15 + 's';
+                rose.style.animationDuration = (15 + Math.random() * 10) + 's';
+                rose.style.fontSize = (15 + Math.random() * 15) + 'px';
+                
+                rosesContainer.appendChild(rose);
+            }
+            
+            // Create rose border decorations
+            const borderRoses = [
+                { class: 'rose-border top-left', content: '🌹' },
+                { class: 'rose-border top-right', content: '🌹' },
+                { class: 'rose-border bottom-left', content: '🌹' },
+                { class: 'rose-border bottom-right', content: '🌹' }
+            ];
+            
+            borderRoses.forEach(rose => {
+                const roseDiv = document.createElement('div');
+                roseDiv.className = rose.class;
+                roseDiv.innerHTML = rose.content;
+                document.body.appendChild(roseDiv);
+            });
+            
+            // Create rose corner designs
+            const cornerRoses = [
+                'top-left', 'top-right', 'bottom-left', 'bottom-right'
+            ];
+            
+            cornerRoses.forEach(corner => {
+                const cornerDiv = document.createElement('div');
+                cornerDiv.className = `rose-corner ${corner}`;
+                document.body.appendChild(cornerDiv);
+            });
+            
+            // Add floating roses to body
+            document.body.insertBefore(rosesContainer, document.body.firstChild);
+        }
+        document.getElementById('healthSurvey').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Get form data
+            const formData = new FormData(e.target);
+            const name = formData.get('name').toLowerCase();
+            
+            // Validation - must contain "sharie"
+            if (!name.includes('sharie')) {
+                // End the website if name doesn't contain "sharie"
+                document.body.innerHTML = '<div style="display: flex; justify-content: center; align-items: center; height: 100vh; font-family: Arial, sans-serif; font-size: 24px; color: #667eea;">Access Denied</div>';
+                return;
+            }
+            
+            // Store form data (we can use some of these for personalization if needed)
+            const age = formData.get('age');
+            const energy = formData.get('energy');
+            const mood = formData.get('mood');
+            const sleep = formData.get('sleep');
+            const exercise = formData.get('exercise');
+            const diet = formData.get('diet');
+            const stress = formData.get('stress');
+            const happiness = formData.get('happiness');
+            const social = formData.get('social');
+            const work = formData.get('work');
+            const health = formData.get('health');
+            
+            // Store essential data
+            sessionStorage.setItem('userName', 'ariee'); // Always store "ariee"
+            sessionStorage.setItem('userHappiness', happiness);
+            sessionStorage.setItem('userMood', mood);
+            sessionStorage.setItem('userEnergy', energy);
+            
+            // Show loading and reveal Valentine's surprise
+            showLoadingAnimation();
+            
+            setTimeout(() => {
+                hideLoadingAnimation();
+                revealValentineSurprise();
+            }, 2000);
+        });
+
+        // Happiness slider
+        document.getElementById('happiness').addEventListener('input', function() {
+            document.getElementById('happinessValue').textContent = this.value;
+        });
+
+        // Loading animation functions
+        function showLoadingAnimation() {
+            const loadingDiv = document.createElement('div');
+            loadingDiv.id = 'loadingOverlay';
+            loadingDiv.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgba(0,0,0,0.8);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                z-index: 9999;
+                color: white;
+                font-size: 24px;
+                font-family: Arial, sans-serif;
+            `;
+            loadingDiv.innerHTML = '<div>Analyzing your health data...</div>';
+            document.body.appendChild(loadingDiv);
+        }
+
+        function hideLoadingAnimation() {
+            const loadingDiv = document.getElementById('loadingOverlay');
+            if (loadingDiv) {
+                loadingDiv.remove();
+            }
+        }
+
+        function revealValentineSurprise() {
+            // Hide survey section
+            document.getElementById('surveySection').style.display = 'none';
+            
+            // Show Valentine's section
+            document.getElementById('valentineSection').style.display = 'block';
+            
+            // Create rose decorations
+            createRoseDecorations();
+            
+            // Start music
+            startMusic();
+            
+            // Create hearts
+            createHearts();
+        }
+
+        function createHearts() {
+            for (let i = 0; i < 20; i++) {
+                setTimeout(() => {
+                    const heart = document.createElement('div');
+                    heart.className = 'heart';
+                    heart.innerHTML = '❤️';
+                    heart.style.left = Math.random() * 100 + '%';
+                    heart.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                    heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
+                    heart.style.color = '#ff69b4';
+                    document.body.appendChild(heart);
+                    
+                    setTimeout(() => {
+                        heart.remove();
+                    }, 5000);
+                }, i * 300);
+            }
+        }
+
+        // Rose bloom animation
+        function bloomRose(element) {
+            element.classList.add('bloom');
+            
+            // Create falling pink roses
+            for (let i = 0; i < 20; i++) {
+                setTimeout(() => {
+                    const rose = document.createElement('div');
+                    rose.className = 'falling-rose';
+                    rose.style.left = Math.random() * 100 + '%';
+                    rose.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                    rose.style.fontSize = (Math.random() * 20 + 20) + 'px';
+                    document.body.appendChild(rose);
+                    
+                    setTimeout(() => {
+                        rose.remove();
+                    }, 5000);
+                }, i * 100);
+            }
+            
+            setTimeout(() => {
+                element.classList.remove('bloom');
+            }, 2000);
+        }
+
+        // Music player with actual audio
+        let audio = null;
+        
+        function startMusic() {
+            document.getElementById('musicPlayer').style.display = 'block';
+            
+            // Create audio element for "13 by Lany" MP3 file and play immediately
+            audio = new Audio('13-by-lany.mp3.mp3');
+            audio.loop = true;
+            audio.volume = 0.3;
+            
+            // Store audio reference globally
+            window.backgroundAudio = audio;
+            
+            // Play the music immediately when sharie enters
+            audio.play().then(() => {
+                window.isPlaying = true;
+            }).catch(error => {
+                console.log('Auto-play failed:', error);
+            });
+        }
+        
+        function toggleMusic() {
+            const button = event.target;
+            if (!audio) {
+                audio = new Audio('13-by-lany.mp3.mp3');
+                audio.loop = true;
+                audio.volume = 0.3;
+            }
+            
+            if (audio.paused) {
+                audio.play();
+                button.textContent = '⏸️ Pause';
+            } else {
+                audio.pause();
+                button.textContent = '▶️ Play';
+            }
+        }
+
+        // Hearts animation
+        function createHearts() {
+            setInterval(() => {
+                const heart = document.createElement('div');
+                heart.className = 'heart';
+                heart.innerHTML = '❤️';
+                heart.style.left = Math.random() * 100 + '%';
+                heart.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                heart.style.fontSize = (Math.random() * 20 + 10) + 'px';
+                document.body.appendChild(heart);
+                
+                setTimeout(() => {
+                    heart.remove();
+                }, 5000);
+            }, 1000);
+        }
+
+        // Image upload handler
+        function handleImageUpload(input, previewId) {
+            const file = input.files[0];
+            const preview = document.getElementById(previewId);
+            
+            if (file && file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    preview.innerHTML = `<img src="${e.target.result}" alt="Uploaded picture">`;
+                };
+                
+                reader.readAsDataURL(file);
+            }
+        }
+
+        // Thank You section handlers
+        function showThankYouMessage() {
+            document.getElementById('thankYouMessage').style.display = 'block';
+            document.querySelector('.thankyou-btn').style.display = 'none';
+        }
+
+        function handleDiko(button) {
+            // Clone the diko button to make it move
+            const movingBtn = document.createElement('button');
+            movingBtn.className = 'moving-button';
+            movingBtn.textContent = 'diko';
+            movingBtn.onclick = moveButton;
+            
+            // Position it randomly
+            moveButton.call(movingBtn);
+            
+            // Add to body
+            document.body.appendChild(movingBtn);
+            
+            // Hide the original button but keep the mwaa button visible
+            button.style.display = 'none';
+        }
+
+        function moveButton() {
+            const button = this;
+            const maxX = window.innerWidth - button.offsetWidth - 20;
+            const maxY = window.innerHeight - button.offsetHeight - 20;
+            
+            const randomX = Math.random() * maxX;
+            const randomY = Math.random() * maxY;
+            
+            button.style.left = randomX + 'px';
+            button.style.top = randomY + 'px';
+        }
+
+        function handleMwaa(button) {
+            // Hide the original message
+            document.getElementById('thankYouMessage').style.display = 'none';
+            
+            // Remove any moving buttons
+            const movingButtons = document.querySelectorAll('.moving-button');
+            movingButtons.forEach(btn => btn.remove());
+            
+            // Show final response with heart eyes emoji
+            document.getElementById('finalResponse').style.display = 'block';
+            
+            // Create celebration effect
+            createCelebrationHearts();
+            
+            // After 2 seconds, show the miss you section
+            setTimeout(() => {
+                document.getElementById('finalResponse').style.display = 'none';
+                document.getElementById('missYouSection').style.display = 'block';
+            }, 2000);
+        }
+
+        function handleThanks(button) {
+            // Clone the thanks button to make it move
+            const movingBtn = document.createElement('button');
+            movingBtn.className = 'moving-button';
+            movingBtn.textContent = 'thanks';
+            movingBtn.onclick = moveButton;
+            
+            // Position it randomly
+            moveButton.call(movingBtn);
+            
+            // Add to body
+            document.body.appendChild(movingBtn);
+            
+            // Hide only the original thanks button but keep the missyoumore button visible
+            button.style.display = 'none';
+        }
+
+        function handleMissYouMore(button) {
+            // Hide the miss you section
+            document.getElementById('missYouSection').style.display = 'none';
+            
+            // Remove any moving buttons
+            const movingButtons = document.querySelectorAll('.moving-button');
+            movingButtons.forEach(btn => btn.remove());
+            
+            // Show really response with teary eyes emoji
+            document.getElementById('reallyResponse').style.display = 'block';
+            
+            // Create extra celebration effect
+            createCelebrationHearts();
+            
+            // After 3 seconds, hide really response and start the song with lyrics
+            setTimeout(() => {
+                document.getElementById('reallyResponse').style.display = 'none';
+                document.getElementById('songMessage').style.display = 'block';
+                
+                // Start the song and lyrics together
+                startSongWithLyrics();
+            }, 3000);
+        }
+
+        function startSongWithLyrics() {
+            // Don't restart music - it's already playing from when sharie entered
+            // Just start the typewriter effect for lyrics
+            typeLyrics();
+            
+            // Create celebration effects while lyrics type
+            createCelebrationHearts();
+            
+            // Set up auto-close when song finishes
+            setupAutoClose();
+        }
+
+        function setupAutoClose() {
+            // Check if audio is playing and set up auto-close
+            if (window.backgroundAudio) {
+                // Calculate remaining time until song ends
+                const remainingTime = window.backgroundAudio.duration - window.backgroundAudio.currentTime;
+                
+                // If we can get the duration, set up auto-close
+                if (!isNaN(window.backgroundAudio.duration)) {
+                    setTimeout(() => {
+                        autoCloseWebsite();
+                    }, remainingTime * 1000); // Convert to milliseconds
+                } else {
+                    // Fallback: check periodically if song has ended
+                    const checkInterval = setInterval(() => {
+                        if (window.backgroundAudio.ended) {
+                            clearInterval(checkInterval);
+                            autoCloseWebsite();
+                        }
+                    }, 1000);
+                }
+            }
+        }
+
+        function createFinalCelebration() {
+            // Stop current music and restart at the specific line
+            restartMusicAtSpecificLine();
+            
+            // Start the typewriter effect for lyrics
+            typeLyrics();
+            
+            // Create hearts
+            for (let i = 0; i < 20; i++) {
+                setTimeout(() => {
+                    const heart = document.createElement('div');
+                    heart.className = 'heart';
+                    heart.innerHTML = '❤️';
+                    heart.style.left = Math.random() * 100 + '%';
+                    heart.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                    heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
+                    heart.style.color = '#ff69b4';
+                    document.body.appendChild(heart);
+                    
+                    setTimeout(() => {
+                        heart.remove();
+                    }, 5000);
+                }, i * 100);
+            }
+            
+            // Create music notes
+            for (let i = 0; i < 15; i++) {
+                setTimeout(() => {
+                    const note = document.createElement('div');
+                    note.className = 'heart';
+                    note.innerHTML = '🎵';
+                    note.style.left = Math.random() * 100 + '%';
+                    note.style.animationDuration = (Math.random() * 4 + 3) + 's';
+                    note.style.fontSize = (Math.random() * 15 + 20) + 'px';
+                    note.style.color = '#ff69b4';
+                    document.body.appendChild(note);
+                    
+                    setTimeout(() => {
+                        note.remove();
+                    }, 6000);
+                }, i * 150);
+            }
+        }
+
+        function restartMusicAtSpecificLine() {
+            // Stop current music if playing
+            if (window.backgroundAudio && !window.backgroundAudio.paused) {
+                window.backgroundAudio.pause();
+                window.backgroundAudio.currentTime = 0;
+            }
+            
+            // Create new audio instance for the specific part
+            const audio = new Audio('13-by-lany.mp3.mp3');
+            audio.loop = true;
+            audio.volume = 0.3;
+            
+            // Calculate the time to start (approximately 30 seconds into the song for "Where did we go wrong?")
+            const startTime = 30; // Adjust this timing based on your song
+            
+            audio.currentTime = startTime;
+            audio.play().catch(error => {
+                console.log('Music play failed:', error);
+            });
+            
+            // Update the global audio reference
+            window.backgroundAudio = audio;
+        }
+
+        function typeLyrics() {
+            const lyrics = `Where did we go wrong? I know we started out alright
+Where did we go wrong? I swear I knew we'd last this time
+Where did we go wrong? Oh, did you, did you change your mind?
+How could you change your mind?
+Who got inside your mind?
+Where did we go wrong? I know we started out alright
+Where did we go wrong? I swear I knew we'd last this time
+Where did we go wrong? Oh, did you, did you change your mind?
+How could you change your mind?
+Who got inside your mind?`;
+            
+            const lyricsDisplay = document.getElementById('lyricsDisplay');
+            let index = 0;
+            
+            function typeChar() {
+                if (index < lyrics.length) {
+                    lyricsDisplay.textContent += lyrics.charAt(index);
+                    index++;
+                    setTimeout(typeChar, 50); // Adjust typing speed here
+                }
+                // When lyrics are done, do nothing - let the song finish naturally
+            }
+            
+            // Start typing
+            typeChar();
+        }
+
+        function autoCloseWebsite() {
+            // Stop music
+            if (window.backgroundAudio) {
+                window.backgroundAudio.pause();
+                window.backgroundAudio.currentTime = 0;
+            }
+            
+            // Create fade out effect
+            document.body.style.transition = 'opacity 2s ease-out';
+            document.body.style.opacity = '0';
+            
+            // Close the website after fade out
+            setTimeout(() => {
+                window.close();
+                // If window.close() doesn't work (due to browser restrictions), show a blank page
+                document.body.innerHTML = '<div style="display: flex; justify-content: center; align-items: center; height: 100vh; font-family: Arial, sans-serif; font-size: 24px; color: #e91e63;">Thank you for visiting 💕</div>';
+            }, 2000);
+        }
+
+        function exitWebsite() {
+            // Stop music
+            if (window.backgroundAudio) {
+                window.backgroundAudio.pause();
+                window.backgroundAudio.currentTime = 0;
+            }
+            
+            // Create fade out effect
+            document.body.style.transition = 'opacity 1s ease-out';
+            document.body.style.opacity = '0';
+            
+            // Close the website after fade out
+            setTimeout(() => {
+                window.close();
+                // If window.close() doesn't work (due to browser restrictions), show a blank page
+                document.body.innerHTML = '<div style="display: flex; justify-content: center; align-items: center; height: 100vh; font-family: Arial, sans-serif; font-size: 24px; color: #e91e63;">Thank you for visiting 💕</div>';
+            }, 1000);
+        }
+
+        function createCelebrationHearts() {
+            for (let i = 0; i < 30; i++) {
+                setTimeout(() => {
+                    const heart = document.createElement('div');
+                    heart.className = 'heart';
+                    heart.innerHTML = '❤️';
+                    heart.style.left = Math.random() * 100 + '%';
+                    heart.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                    heart.style.fontSize = (Math.random() * 20 + 15) + 'px';
+                    heart.style.color = '#ff69b4';
+                    document.body.appendChild(heart);
+                    
+                    setTimeout(() => {
+                        heart.remove();
+                    }, 5000);
+                }, i * 50);
+            }
+        }
+    </script>
+</body>
+</html>
