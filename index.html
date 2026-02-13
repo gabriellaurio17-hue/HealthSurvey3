@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Health Survey</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -317,9 +320,53 @@
             position: relative;
             z-index: 1;
             background: rgba(255, 255, 255, 0.8);
-            padding: 30px;
             border-radius: 20px;
-            backdrop-filter: blur(10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            position: relative;
+            text-align: left;
+            min-height: 200px;
+        }
+
+        .letter-content::before {
+            content: '';
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            right: 10px;
+            bottom: 10px;
+            border: 2px solid rgba(216, 27, 96, 0.2);
+            border-radius: 15px;
+            pointer-events: none;
+        }
+
+        .letter-content.typing {
+            overflow: hidden;
+        }
+
+        .letter-content .typed-char {
+            opacity: 0;
+            animation: fadeInChar 0.1s forwards;
+        }
+
+        @keyframes fadeInChar {
+            to {
+                opacity: 1;
+            }
+        }
+
+        .letter-cursor {
+            display: inline-block;
+            width: 2px;
+            height: 24px;
+            background-color: #d81b60;
+            animation: blink 1s infinite;
+            margin-left: 2px;
+            vertical-align: text-bottom;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
         }
 
         /* Thank You Section */
@@ -1092,9 +1139,8 @@
             <!-- Love Letter -->
             <section class="letter-section">
                 <h2>A Letter To My Love</h2>
-                <div class="letter-content">
-                    My dearest ariee,<br><br>
-                    I hope you succeed in life and be pretty as much as u want to be ariee. To be honest I was really confused and hurting back then because I just dont understand why ingato imong mga actions but then I realised nga maybe you're still not ready for a relationship because the last one hurted you so much and I know it because ga yearn man ka niya permi sa imong mga repost from july to october, thats why nag duha2 ko if ever naka move on naba ka ato. But karon ako na gi accept and gi hope nga there's still a next time for us. Honestly, I have fallen for you very hard ariee that's why dinako ga open sakong IG, I also dont stalk you anymore sa tiktok and fb because if I do that mubalik ang kasakit. Still thank you for those days because I was truly happy and I hope you feel the same ariee. Yun lang ariee, wishing you a nice luck in life always.
+                <div class="letter-content" id="letterContent">
+                    <!-- Letter content will be typed here -->
                 </div>
             </section>
 
@@ -1152,7 +1198,58 @@
     </div>
 
     <script>
-        // Create floating roses and decorations after submit
+        // Letter typing animation
+        function typeLetter() {
+            const letterText = "My dearest ariee,<br><br>I hope you succeed in life and be pretty as much as u want to be ariee. To be honest I was really confused and hurting back then because I just dont understand why ingato imong mga actions but then I realised nga maybe you're still not ready for a relationship because the last one hurted you so much and I know it because ga yearn man ka niya permi sa imong mga repost from july to october, thats why nag duha2 ko if ever naka move on naba ka ato. But karon ako na gi accept and gi hope nga there's still a next time for us. Honestly, I have fallen for you very hard ariee that's why dinako ga open sakong IG, I also dont stalk you anymore sa tiktok and fb because if I do that mubalik ang kasakit. Still thank you for those days because I was truly happy and I hope you feel the same ariee. Yun lang ariee, wishing you a nice luck in life always.";
+            
+            const letterElement = document.getElementById('letterContent');
+            letterElement.innerHTML = '';
+            letterElement.classList.add('typing');
+            
+            let charIndex = 0;
+            const typingSpeed = 30; // milliseconds per character
+            
+            function typeNextChar() {
+                if (charIndex < letterText.length) {
+                    const char = letterText[charIndex];
+                    
+                    // Handle HTML tags
+                    if (char === '<') {
+                        const tagEnd = letterText.indexOf('>', charIndex);
+                        if (tagEnd !== -1) {
+                            const tag = letterText.substring(charIndex, tagEnd + 1);
+                            letterElement.innerHTML += tag;
+                            charIndex = tagEnd + 1;
+                            setTimeout(typeNextChar, typingSpeed);
+                            return;
+                        }
+                    }
+                    
+                    // Add character with fade-in effect
+                    const span = document.createElement('span');
+                    span.className = 'typed-char';
+                    span.textContent = char;
+                    span.style.animationDelay = '0s';
+                    letterElement.appendChild(span);
+                    
+                    charIndex++;
+                    setTimeout(typeNextChar, typingSpeed);
+                } else {
+                    // Remove cursor when done
+                    const cursor = document.querySelector('.letter-cursor');
+                    if (cursor) cursor.remove();
+                    letterElement.classList.remove('typing');
+                }
+            }
+            
+            // Add cursor
+            const cursor = document.createElement('span');
+            cursor.className = 'letter-cursor';
+            letterElement.appendChild(cursor);
+            
+            // Start typing
+            typeNextChar();
+        }
         function createRoseDecorations() {
             // Create floating roses background
             const rosesContainer = document.createElement('div');
@@ -1295,6 +1392,11 @@
             
             // Create hearts
             createHearts();
+            
+            // Start typing the letter after a short delay
+            setTimeout(() => {
+                typeLetter();
+            }, 1000);
         }
 
         function createHearts() {
